@@ -46,10 +46,17 @@ This is a minimal multi-threaded HTTP server built in C. It supports basic HTTP 
 The server will start and listen on port 8080. You can test it with:
 
   ```bash
-  curl -X GET http://localhost:8080/
-  curl -X POST http://localhost:8080/static/test.txt -d "This is a test file"
-  curl -X PUT http://localhost:8080/static/test.txt -d "Updated content"
-  curl -X DELETE http://localhost:8080/static/test.txt
+  # Retrieve the homepage or check if the server is running
+   curl -X GET http://localhost:8080/
+   
+   # Create (POST) a new file named "test.txt" inside the /static directory
+   curl -X POST http://localhost:8080/static/test.txt -d "This is a test file"
+   
+   # Update (PUT) the contents of "test.txt" with new data
+   curl -X PUT http://localhost:8080/static/test.txt -d "Updated content"
+   
+   # Delete (DELETE) the file "test.txt"
+   curl -X DELETE http://localhost:8080/static/test.txt
   ```
 
 
