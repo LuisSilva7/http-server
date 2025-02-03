@@ -25,19 +25,19 @@ This is a minimal multi-threaded HTTP server built in C. It supports basic HTTP 
    git clone https://github.com/LuisSilva7/http-server.git
    ```
    
-3. **Navigate to the project directory:**
+2. **Navigate to the project directory:**
 
    ```bash
    cd http-server
    ```
 
-4. **Compile the project:**
+3. **Compile the project:**
 
    ```bash
    make
    ```
 
-5. **Run the server:**
+4. **Run the server:**
 
    ```bash
    make run
