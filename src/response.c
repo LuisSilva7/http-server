@@ -1,8 +1,9 @@
 #include "response.h"
+#include "request.h"
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 void send_response(int client_fd, int status_code, const char *body,
                    const char *content_type) {
@@ -20,4 +21,19 @@ void send_response(int client_fd, int status_code, const char *body,
              content_type, strlen(body), body);
 
     send(client_fd, response, strlen(response), 0);
+}
+
+void handle_request(int client_fd, HttpRequest *request) {
+    if (strcmp(request->path, "/") == 0) {
+        send_response(client_fd, 200, "<h1>Welcome to the Homepage!</h1>",
+                      "text/html");
+    } else if (strcmp(request->path, "/about") == 0) {
+        send_response(client_fd, 200,
+                      "<h1>About Us</h1><p>We are a simple HTTP server.</p>",
+                      "text/html");
+    } else {
+        send_response(client_fd, 404,
+                      "<h1>Not Found</h1><p>Please comeback later.</p>",
+                      "text/html");
+    }
 }

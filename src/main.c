@@ -1,5 +1,5 @@
 #include "server.h"
-// #include "request.h"
+#include "request.h"
 #include "response.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -14,15 +14,15 @@ int main() {
     while (1) {
         int client_fd = accept_client(server_fd);
         if (client_fd >= 0) {
-            // HttpRequest request;
-            // parse_request(client_fd, &request);
-            //
-            // printf("Method: %s, Path: %s\n", request.method, request.path);
-            // for (int i = 0; i < request.header_count; i++) {
-            //     printf("Header: %s\n", request.headers[i]);
-            // }
+            HttpRequest request;
+            parse_request(client_fd, &request);
 
-            send_response(client_fd, 200, "<h1>Hello, World!</h1>", "text/html");
+            printf("Method: %s, Path: %s\n", request.method, request.path);
+            for (int i = 0; i < request.header_count; i++) {
+                printf("Header: %s\n", request.headers[i]);
+            }
+
+            handle_request(client_fd, &request);
 
             // Por agora, apenas fechar a conexão
             close(client_fd);
