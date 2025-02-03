@@ -2,11 +2,11 @@
 #include "request.h"
 #include "response.h"
 #include <netinet/in.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <pthread.h>
 
 int create_server_socket() {
     int server_fd;
@@ -73,9 +73,9 @@ void *handle_client(void *arg) {
 
     printf("Handling client in a new thread...\n");
 
-    // ⚠️ Chamar aqui a função para processar o pedido e enviar a resposta
     HttpRequest request;
     parse_request(client_fd, &request);
+    print_request_debug(&request);
 
     printf("Method: %s, Path: %s\n", request.method, request.path);
     for (int i = 0; i < request.header_count; i++) {
