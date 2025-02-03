@@ -1,9 +1,12 @@
 #include "server.h"
+#include "request.h"
+#include "response.h"
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <pthread.h>
 
 int create_server_socket() {
     int server_fd;
@@ -43,17 +46,44 @@ void start_listening(int server_fd) {
     }
 }
 
-int accept_client(int server_fd) {
-    struct sockaddr_in client_addr;
-    socklen_t addr_len = sizeof(client_addr);
+void accept_client(int server_fd) {
+    while (1) {
+        int *client_fd = malloc(sizeof(int));
+        *client_fd = accept(server_fd, NULL, NULL);
+        if (*client_fd < 0) {
+            perror("Accept failed");
+            free(client_fd);
+            continue;
+        }
 
-    int client_fd =
-        accept(server_fd, (struct sockaddr *)&client_addr, &addr_len);
-    if (client_fd < 0) {
-        perror("Accept failed");
-        return -1;
+        pthread_t thread;
+        if (pthread_create(&thread, NULL, handle_client, client_fd) != 0) {
+            perror("Failed to create thread");
+            free(client_fd);
+            continue;
+        }
+
+        pthread_detach(thread);
+    }
+}
+
+void *handle_client(void *arg) {
+    int client_fd = *(int *)arg;
+    free(arg);
+
+    printf("Handling client in a new thread...\n");
+
+    // ⚠️ Chamar aqui a função para processar o pedido e enviar a resposta
+    HttpRequest request;
+    parse_request(client_fd, &request);
+
+    printf("Method: %s, Path: %s\n", request.method, request.path);
+    for (int i = 0; i < request.header_count; i++) {
+        printf("Header: %s\n", request.headers[i]);
     }
 
-    printf("Client connected!\n");
-    return client_fd;
+    handle_request(client_fd, &request);
+
+    close(client_fd);
+    return NULL;
 }
