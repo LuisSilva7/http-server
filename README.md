@@ -47,16 +47,16 @@ The server will start and listen on port 8080. You can test it with:
 
   ```bash
   # Retrieve the homepage or check if the server is running
-   curl -X GET http://localhost:8080/
+  curl -X GET http://localhost:8080/
    
-   # Create (POST) a new file named "test.txt" inside the /static directory
-   curl -X POST http://localhost:8080/static/test.txt -d "This is a test file"
+  # Create (POST) a new file named "test.txt" inside the /static directory
+  curl -X POST http://localhost:8080/static/test.txt -d "This is a test file"
    
-   # Update (PUT) the contents of "test.txt" with new data
-   curl -X PUT http://localhost:8080/static/test.txt -d "Updated content"
+  # Update (PUT) the contents of "test.txt" with new data
+  curl -X PUT http://localhost:8080/static/test.txt -d "Updated content"
    
-   # Delete (DELETE) the file "test.txt"
-   curl -X DELETE http://localhost:8080/static/test.txt
+  # Delete (DELETE) the file "test.txt"
+  curl -X DELETE http://localhost:8080/static/test.txt
   ```
 
 
