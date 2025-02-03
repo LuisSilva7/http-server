@@ -13,6 +13,7 @@ $(EXEC): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(EXEC)
+	@echo ""
 	./$(EXEC)
 
 clean:
