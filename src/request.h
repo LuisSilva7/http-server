@@ -1,5 +1,6 @@
 #ifndef REQUEST_H
 #define REQUEST_H
+
 #define MAX_HEADERS 20
 #define MAX_HEADER_LENGTH 256
 
